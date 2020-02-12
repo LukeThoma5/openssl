@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "bio_local.h": "c",
+        "thread_once.h": "c",
+        "string.h": "c",
+        "crypto.h": "c",
+        "sockets.h": "c",
+        "e_os.h": "c"
+    }
+}
