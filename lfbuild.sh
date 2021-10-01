@@ -36,7 +36,7 @@ echo $QNX_TARGET
 # Patched the source to remove unknown hints
 
 # Made a working make file
-./Configure linux-generic32 \
+CC=qnx-gcc.sh CXX=qnx-g++.sh ./Configure linux-generic32 \
     --cross-compile-prefix=i386-pc-nto-qnx6.3.0- \
     --prefix=/cygdrive/c/QNX630/target/qnx6/usr \
     --openssldir=/usr/local/openssl \

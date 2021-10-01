@@ -1,0 +1,23 @@
+--- Makefile.clean	2021-10-01 13:43:13.800883700 +0100
++++ Makefile	2021-10-01 13:40:53.942404400 +0100
+@@ -2143,7 +2143,8 @@
+ CNF_CFLAGS=
+ CNF_CXXFLAGS=-std=c++11
+ CNF_LDFLAGS=
+-CNF_EX_LIBS=-ldl
++# remove ldl as its backed in the the standard library, add lsocket because it isn't and link against the c standard library as thats not the default for an embedded toolchain
++CNF_EX_LIBS=-lsocket -lc
+ 
+ # Variables starting with LIB_ are used to build library object files
+ # and shared libraries.
+@@ -3850,7 +3851,9 @@
+              providers/common/libnonfips-lib-provider_util.o \
+              providers/implementations/ciphers/libnonfips-lib-cipher_aes_xts_fips.o \
+              providers/implementations/kdfs/libnonfips-lib-pbkdf2_fips.o
+-	$(AR) $(ARFLAGS) $@ $?
++	# Windows has a character limit of 32000 characters which is too short for the above list of object files. Save them all to a file and then that file can add them to the archive by chunking it up
++	echo "$?" > long_command_args.txt
++	bash cli-chunked-via-file.sh $(AR) $(ARFLAGS) $@
+ 	$(RANLIB) $@ || echo Never mind.
+ crypto/aes/libcrypto-lib-aes_cbc.o: crypto/aes/aes_cbc.c
+ 	$(CC)  -I. -Iinclude -Iproviders/common/include -Iproviders/implementations/include -Icrypto/include  $(LIB_CFLAGS) $(LIB_CPPFLAGS)  -c -o $@ crypto/aes/aes_cbc.c
