@@ -1,6 +1,8 @@
 # Ignore editor artefacts
 /.dir-locals.el
 
+long_command_args.txt
+
 # Top level excludes
 /Makefile
 /MINFO

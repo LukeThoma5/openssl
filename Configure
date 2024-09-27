@@ -1130,6 +1130,8 @@ if ($target =~ m/^CygWin32(-.*)$/) {
     $target = "Cygwin".$1;
 }
 
+print "1133\n";
+
 # Support for legacy targets having a name starting with 'debug-'
 my ($d, $t) = $target =~ m/^(debug-)?(.*)$/;
 if ($d) {
@@ -1184,6 +1186,9 @@ $disabled{uplink} = 'no uplink_arch' unless (defined $target{uplink_arch});
 $disabled{asm} = 'no asm_arch' unless (defined $target{asm_arch});
 
 disable();                      # Run a cascade now
+
+
+print "1191\n";
 
 $target{CXXFLAGS}//=$target{CFLAGS} if $target{CXX};
 $target{cxxflags}//=$target{cflags} if $target{CXX};
@@ -1339,6 +1344,9 @@ unless($disabled{threads}) {
     push @{$config{openssl_feature_defines}}, "OPENSSL_THREADS";
 }
 
+
+print "1348\n";
+
 my $no_shared_warn=0;
 if ($target{shared_target} eq "")
         {
@@ -1452,6 +1460,8 @@ if (!$disabled{asm} && !$predefined_C{__MACH__} && $^O ne 'VMS') {
     }
 }
 
+
+print "1460\n";
 # Deal with bn_ops ###################################################
 
 $config{bn_ll}                  =0;
@@ -1686,10 +1696,14 @@ if ($disabled{"dynamic-engine"}) {
 # If we use the unified build, collect information from build.info files
 my %unified_info = ();
 
+
+print "1697\n";
+
 my $buildinfo_debug = defined($ENV{CONFIGURE_DEBUG_BUILDINFO});
 if ($builder eq "unified") {
     use Text::Template 1.46;
-
+    
+    print "1706\n";
     sub cleandir {
         my $base = shift;
         my $dir = shift;
@@ -1730,6 +1744,8 @@ if ($builder eq "unified") {
           $target{build_file}.".tmpl" );
     my @build_file_templates = ();
 
+    
+    print "1748\n";
     # First, look in the user provided directory, if given
     if (defined env($local_config_envname)) {
         @build_file_templates =
@@ -2503,6 +2519,9 @@ EOF
     }
 }
 
+
+print "2514\n";
+
 # For the schemes that need it, we provide the old *_obj configs
 # from the *_asm_obj ones
 foreach (grep /_(asm|aux)_src$/, keys %target) {
@@ -3089,6 +3108,8 @@ sub print_table_entry
         print "    },\n";
     }
 }
+
+print "3100\n";
 
 # Utility routines ###################################################
 
