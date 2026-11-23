@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#ifdef __QNXNTO__
+# include <strings.h>  /* QNX declares strcasecmp only in strings.h */
+#endif
 #include "internal/cryptlib.h"
 #include "internal/o_dir.h"
 #include <openssl/lhash.h>

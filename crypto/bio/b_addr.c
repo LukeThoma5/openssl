@@ -684,15 +684,17 @@ int BIO_lookup_ex(const char *host, const char *service, int lookup_type,
         hints.ai_family = family;
         hints.ai_socktype = socktype;
         hints.ai_protocol = protocol;
-
-// LF - QNX getaddrinfo only supports the bottom 3 bits for the ai_flags
-// Setting any other flag will cause it to return a gai_error of invalid flags
-// # ifdef AI_ADDRCONFIG
-// #  ifdef AF_UNSPEC
-//         if (family == AF_UNSPEC)
-// #  endif
-//             hints.ai_flags |= AI_ADDRCONFIG;
-// # endif
+/*
+ * QNX 6.3 defines AI_ADDRCONFIG, but its getaddrinfo() rejects any flag
+ * outside AI_MASK (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST) with
+ * EAI_BADFLAGS, and the retry below then only accepts numeric hosts.
+ */
+# if defined(AI_ADDRCONFIG) && (!defined(AI_MASK) || (AI_MASK & AI_ADDRCONFIG))
+#  ifdef AF_UNSPEC
+        if (family == AF_UNSPEC)
+#  endif
+            hints.ai_flags |= AI_ADDRCONFIG;
+# endif
 
         if (lookup_type == BIO_LOOKUP_SERVER)
             hints.ai_flags |= AI_PASSIVE;

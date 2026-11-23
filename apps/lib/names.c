@@ -8,6 +8,9 @@
  */
 
 #include <string.h>
+#ifdef __QNXNTO__
+# include <strings.h>  /* QNX declares strcasecmp only in strings.h */
+#endif
 #include <openssl/bio.h>
 #include <openssl/safestack.h>
 #include "names.h"
