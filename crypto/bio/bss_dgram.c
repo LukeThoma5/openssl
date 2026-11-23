@@ -107,10 +107,11 @@
 #if M_METHOD == M_METHOD_RECVMMSG   \
     || M_METHOD == M_METHOD_RECVMSG \
     || M_METHOD == M_METHOD_WSARECVMSG
-#if defined(__APPLE__)
+#if defined(__APPLE__) || defined(__QNXNTO__)
 /*
- * CMSG_SPACE is not a constant expression on OSX even though POSIX
- * says it's supposed to be. This should be adequate.
+ * CMSG_SPACE is not a constant expression on OSX or QNX (which calls
+ * __cmsg_alignbytes()) even though POSIX says it's supposed to be.
+ * This should be adequate.
  */
 #define BIO_CMSG_ALLOC_LEN 64
 #else

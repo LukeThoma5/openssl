@@ -728,7 +728,12 @@ int BIO_lookup_ex(const char *host, const char *service, int lookup_type,
         hints.ai_family = family;
         hints.ai_socktype = socktype;
         hints.ai_protocol = protocol;
-#ifdef AI_ADDRCONFIG
+/*
+ * QNX 6.3 defines AI_ADDRCONFIG, but its getaddrinfo() rejects any flag
+ * outside AI_MASK (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST) with
+ * EAI_BADFLAGS, and the retry below then only accepts numeric hosts.
+ */
+#if defined(AI_ADDRCONFIG) && (!defined(AI_MASK) || (AI_MASK & AI_ADDRCONFIG))
 #ifdef AF_UNSPEC
         if (host != NULL && family == AF_UNSPEC)
 #endif

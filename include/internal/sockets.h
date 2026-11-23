@@ -120,7 +120,9 @@ typedef size_t socklen_t; /* Currently appears to be missing on VMS */
 #endif
 
 #ifdef OPENSSL_SYS_UNIX
-#ifndef OPENSSL_SYS_TANDEM
+#if defined(__QNXNTO__)
+#include <sys/poll.h> /* QNX 6 has no <poll.h> */
+#elif !defined(OPENSSL_SYS_TANDEM)
 #include <poll.h>
 #endif
 #include <errno.h>
