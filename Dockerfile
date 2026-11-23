@@ -15,9 +15,10 @@
 #   no-asm      the generic C code, as for linux-generic32
 #   no-idea     as deployed
 #   -lsocket    QNX keeps the socket functions in libsocket
-#   --debug     unoptimised with debug info (revisit: the unit CPU is 266 MHz)
 # plus:
 #   no-tests    the test programs are not needed to build the libraries
+# The deployed build also had --debug (-O0 -g). This is the release build
+# (-O3, no debug info): the unit's CPU runs at 266 MHz.
 # The OpenSSL directory on the unit (certificates) is /usr/local/openssl.
 
 ARG BASE=qnx630-toolchain
@@ -33,7 +34,6 @@ RUN ./Configure linux-generic32 \
       --prefix="$QNX_TARGET/usr" \
       --openssldir=/usr/local/openssl \
       no-shared no-threads no-asm no-idea no-tests \
-      --debug \
       -lsocket \
  && make -j"$(nproc)" \
  && make DESTDIR=/stage install_sw
